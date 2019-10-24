@@ -8,6 +8,11 @@
 require 'faker'
 
 Doctor.destroy_all
+Patient.destroy_all
+Appointment.destroy_all
+City.destroy_all
+
+
 
 def random
 	genre_list = Array.new
@@ -23,9 +28,13 @@ def random_city
 	return city
 end
 
+
+
 50.times do
 	city = City.create!(name: random_city)
+	speciality = Speciality.create!(name: random)
   patient = Patient.create!(first_name: Faker::Name.first_name,last_name: Faker::Name.last_name, city: city)
-  doctor = Doctor.create!(first_name: Faker::Name.first_name,last_name: Faker::Name.last_name,speciality: random,zip_code: Faker::Address.zip_code, city: city)  
+  doctor = Doctor.create!(first_name: Faker::Name.first_name,last_name: Faker::Name.last_name, zip_code: Faker::Address.zip_code, city: city)  
   appoint = Appointment.create!(doctor: doctor, patient: patient, date: Faker::Time.forward(days: 50, period: :morning, format: :short), city: city)
+  jointable = Jointable.create!(speciality: speciality, doctor: doctor)
 end
